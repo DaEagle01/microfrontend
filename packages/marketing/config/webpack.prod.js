@@ -17,12 +17,12 @@ const prodConfig = {
       exposes: {
         "./MarketingApp": "./src/bootstrap",
       },
+      library: { type: 'var', name: 'marketing' },
       shared: packageJson.dependencies,
     }),
     new HtmlWebpackPlugin({
       template: './public/index.html',
-      // Ensure bootstrap.js is loaded after remoteEntry.js
-      scriptLoading: 'blocking'
+      inject: true
     }),
   ],
 };

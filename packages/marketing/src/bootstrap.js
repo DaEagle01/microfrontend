@@ -1,12 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { createMemoryHistory, createBrowserHistory } from 'history';
+import { createMemoryHistory, createBrowserHistory } from "history";
 import App from "./App";
 
 const mount = (el, { onNavigate, defaultHistory, initialPath } = {}) => {
-  const history = defaultHistory || createMemoryHistory({
-    initialEntries: [initialPath || '/']
-  });
+  const history =
+    defaultHistory ||
+    createMemoryHistory({
+      initialEntries: [initialPath || "/"],
+    });
 
   if (onNavigate) {
     history.listen(onNavigate);
@@ -17,33 +19,31 @@ const mount = (el, { onNavigate, defaultHistory, initialPath } = {}) => {
   return {
     onParentNavigate({ pathname: nextPathname }) {
       const { pathname } = history.location;
-      
+
       if (pathname !== nextPathname) {
         history.push(nextPathname);
       }
-    }
+    },
   };
 };
 
-// Mount function for running marketing app standalone
-const mountApp = () => {
-  const devRoot = document.querySelector('#_marketing-dev-root');
-  if (devRoot) {
-    mount(devRoot, { defaultHistory: createBrowserHistory() });
+// Immediately mount function
+const startApp = () => {
+  const el = document.querySelector("#_marketing-dev-root");
+
+  // If we're not running through the container and we find our element
+  if (el && !window.__MARKETING_DEV__) {
+    // Set a flag to prevent double mounting
+    window.__MARKETING_DEV__ = true;
+
+    // Use browser history for standalone mode
+    mount(el, { defaultHistory: createBrowserHistory() });
   }
 };
 
-// If we are in development and in isolation,
-// call mount immediately
-if (process.env.NODE_ENV === 'development') {
-  mountApp();
-}
+// Run immediately in both development and production
+startApp();
 
-// If we are running through container
-// and we are in development or production,
-// export the mount function
-if (!window.marketing) {
-  mountApp();
-}
-
+// We are running through container
+// and we should export the mount function
 export { mount };
