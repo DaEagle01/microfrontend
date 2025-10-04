@@ -8,7 +8,7 @@ const prodConfig = {
   mode: "production",
   output: {
     filename: "[name].[contenthash].js",
-    publicPath: '/',
+    publicPath: 'auto',
   },
   plugins: [
     new ModuleFederationPlugin({
@@ -18,6 +18,9 @@ const prodConfig = {
         "./MarketingApp": "./src/bootstrap",
       },
       shared: packageJson.dependencies,
+    }),
+    new HtmlWebpackPlugin({
+      template: './public/index.html'
     }),
   ],
 };
