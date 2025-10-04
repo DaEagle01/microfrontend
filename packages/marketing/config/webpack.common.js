@@ -1,4 +1,4 @@
-zmodule.exports = {
+module.exports = {
   module: {
     rules: [
       {
