@@ -1,0 +1,29 @@
+name: deploy-marketing
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "packages/marketing/**"
+
+defaults:
+  run:
+    working-directory: packages/marketing
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build
+
+      - name: Deploy to Netlify
+        run: npx netlify deploy --prod --dir=dist --site ${{ secrets.NETLIFY_MARKETING_SITE_ID }}
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
