@@ -20,7 +20,9 @@ const prodConfig = {
       shared: packageJson.dependencies,
     }),
     new HtmlWebpackPlugin({
-      template: './public/index.html'
+      template: './public/index.html',
+      // Ensure bootstrap.js is loaded after remoteEntry.js
+      scriptLoading: 'blocking'
     }),
   ],
 };

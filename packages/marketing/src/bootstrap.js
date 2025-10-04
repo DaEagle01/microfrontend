@@ -25,12 +25,25 @@ const mount = (el, { onNavigate, defaultHistory, initialPath } = {}) => {
   };
 };
 
-if (process.env.NODE_ENV === 'development') {
+// Mount function for running marketing app standalone
+const mountApp = () => {
   const devRoot = document.querySelector('#_marketing-dev-root');
-
   if (devRoot) {
     mount(devRoot, { defaultHistory: createBrowserHistory() });
   }
+};
+
+// If we are in development and in isolation,
+// call mount immediately
+if (process.env.NODE_ENV === 'development') {
+  mountApp();
+}
+
+// If we are running through container
+// and we are in development or production,
+// export the mount function
+if (!window.marketing) {
+  mountApp();
 }
 
 export { mount };
