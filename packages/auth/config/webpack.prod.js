@@ -18,10 +18,12 @@ const prodConfig = {
       exposes: {
         "./AuthApp": "./src/bootstrap",
       },
+      library: { type: "var", name: "auth" },
       shared: packageJson.dependencies,
     }),
     new HtmlWebpackPlugin({
       template: "./public/index.html",
+      inject: true,
     }),
   ],
 };
