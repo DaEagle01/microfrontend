@@ -8,7 +8,8 @@ const prodConfig = {
   mode: "production",
   output: {
     filename: "[name].[contenthash].js",
-    publicPath: 'auto',
+    publicPath: "/",
+    clean: true,
   },
   plugins: [
     new ModuleFederationPlugin({
@@ -17,12 +18,10 @@ const prodConfig = {
       exposes: {
         "./AuthApp": "./src/bootstrap",
       },
-      library: { type: 'var', name: 'auth' },
       shared: packageJson.dependencies,
     }),
     new HtmlWebpackPlugin({
-      template: './public/index.html',
-      inject: true
+      template: "./public/index.html",
     }),
   ],
 };
