@@ -1,15 +1,15 @@
-name: deploy-container
+name: deploy-auth
 
 on:
   push:
     branches:
       - main
     paths:
-      - 'packages/container/**'
+      - "packages/auth/**"
 
 defaults:
   run:
-    working-directory: packages/container
+    working-directory: packages/auth
 
 jobs:
   build-deploy:
@@ -22,11 +22,8 @@ jobs:
 
       - name: Build
         run: npm run build
-        env:
-          MARKETING_PRODUCTION_DOMAIN: https://marketing-mfe.netlify.app/
-          AUTH_PRODUCTION_DOMAIN: https://authentication-mfe.netlify.app/
 
       - name: Deploy to Netlify
-        run: npx netlify deploy --prod --dir=dist --site ${{ secrets.NETLIFY_CONTAINER_SITE_ID }}
+        run: npx netlify deploy --prod --dir=dist --site ${{ secrets.NETLIFY_AUTH_SITE_ID }}
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
