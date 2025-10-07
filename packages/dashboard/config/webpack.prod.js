@@ -4,24 +4,18 @@ const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPl
 const commonConfig = require("./webpack.common");
 const packageJson = require("../package.json");
 
-const containerDomain = process.env.CONTAINER_PRODUCTION_DOMAIN;
-const marketingDomain = process.env.MARKETING_PRODUCTION_DOMAIN;
-const authDomain = process.env.AUTH_PRODUCTION_DOMAIN;
-const dashboardDomain = process.env.DASHBOARD_PRODUCTION_DOMAIN;
-
 const prodConfig = {
   mode: "production",
   output: {
     filename: "[name].[contenthash].js",
-    publicPath: containerDomain,
+    publicPath: "https://admin-dashboard-mfe.netlify.app/",
   },
   plugins: [
     new ModuleFederationPlugin({
-      name: "container",
-      remotes: {
-        marketing: `marketing@${marketingDomain}/remoteEntry.js`,
-        auth: `auth@${authDomain}/remoteEntry.js`,
-        dashboard: `dashboard@${dashboardDomain}/remoteEntry.js`,
+      name: "dashboard",
+      filename: "remoteEntry.js",
+      exposes: {
+        "./DashboardApp": "./src/bootstrap",
       },
       shared: packageJson.dependencies,
     }),

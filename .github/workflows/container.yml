@@ -25,6 +25,7 @@ jobs:
         env:
           MARKETING_PRODUCTION_DOMAIN: https://marketing-mfe.netlify.app/
           AUTH_PRODUCTION_DOMAIN: https://authentication-mfe.netlify.app/
+          DASHBOARD_PRODUCTION_DOMAIN: https://admin-dashboard-mfe.netlify.app/
 
       - name: Deploy to Netlify
         run: npx netlify deploy --prod --dir=dist --site ${{ secrets.NETLIFY_CONTAINER_SITE_ID }}
